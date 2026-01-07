@@ -1,0 +1,102 @@
+### ===============================
+### BASE CONFIG
+### ===============================
+
+@baseUrl = http://localhost:5000/api
+@json = application/json
+
+
+### ===============================
+### HEALTH CHECK
+### ===============================
+GET http://localhost:5000/health
+
+
+### ===============================
+### REGISTER USER (OWNER)
+### ===============================
+POST {{baseUrl}}/auth/register
+Content-Type: {{json}}
+
+# {
+#   "name": "John Owner",
+#   "email": "owner@test.com",
+#   "password": "123456",
+#   "role": "owner"
+# }
+
+{
+  "name": "Admin",
+  "email": "admin@test.com",
+  "password": "123456",
+  "role": "admin"
+}
+
+
+### ===============================
+### REGISTER USER (NORMAL USER)
+### ===============================
+POST {{baseUrl}}/auth/register
+Content-Type: {{json}}
+
+{
+  "name": "Normal User",
+  "email": "user@test.com",
+  "password": "123456"
+}
+
+
+### ===============================
+### LOGIN USER
+### ===============================
+POST {{baseUrl}}/auth/login
+Content-Type: {{json}}
+
+# {
+#   "email": "owner@test.com",
+#   "password": "123456"
+# }
+
+{
+    "email": "raj@gmail.com",
+  "password": "123456"
+  }
+
+### ===============================
+### COPY TOKEN FROM LOGIN RESPONSE
+### ===============================
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NWNkN2ZiOWQ1Y2RiODk2NmI4ZWMwOSIsInJvbGUiOiJvd25lciIsImlhdCI6MTc2NzY5MzM0NCwiZXhwIjoxNzY4Mjk4MTQ0fQ.0MVV401v-iJUiVUe86e5xgVl7fScBd0B6Cn0OTRimsk
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NWNiMDJkODJiMjhiNTg3OWYxOTQwMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2NzY4MjE0MCwiZXhwIjoxNzY4Mjg2OTQwfQ.dPl-4luhH9J7jBLznvNNafplJMLhA7MJjz0x36XhFY0
+
+### ===============================
+### CREATE PROPERTY (OWNER ONLY)
+### ===============================
+POST {{baseUrl}}/properties
+Authorization: Bearer {{token}}
+Content-Type: {{json}}
+
+{
+  "title": "2 BHK Flat in Delhi",
+  "description": "parking space, well furnished",
+  "price": 35000,
+  "purpose": "rent",
+  "propertyType": "flat",
+  "bhk": 3,
+  "area": 1200,
+  "city": "Mumbai",
+  "locality": "Patel nagar"
+}
+
+
+### ===============================
+### GET ALL PROPERTIES (PUBLIC)
+### ===============================
+GET {{baseUrl}}/properties/my
+
+Authorization: Bearer {{token}}
+
+
+### ===============================
+### FILTER PROPERTIES (LIKE 99ACRES)
+### ===============================
+GET {{baseUrl}}/properties?city=Delhi&purpose=rent
