@@ -2,7 +2,8 @@
 ### BASE CONFIG
 ### ===============================
 
-@baseUrl = http://localhost:5000/api
+@baseUrl = https://realstate-x2md.vercel.app/api
+# http://localhost:5000/api
 @json = application/json
 
 
