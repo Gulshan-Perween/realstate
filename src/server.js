@@ -25,19 +25,42 @@
 // // ✅ Export for Vercel
 // module.exports = app;
 
+// require('dotenv').config();
+// const app = require('./app');
+// const connectDB = require('./config/db');
+
+// connectDB();
+
+// // ✅ Local development only
+// if (process.env.NODE_ENV !== 'production') {
+//   const PORT = process.env.PORT || 5000;
+//   app.listen(PORT, () => {
+//     console.log(`🚀 Server running on port ${PORT}`);
+//   });
+// }
+
+// // ✅ Required for Vercel
+// module.exports = app;
+
 require('dotenv').config();
 const app = require('./app');
 const connectDB = require('./config/db');
 
-connectDB();
+// ❌ WRONG - not awaited
+// connectDB();
 
-// ✅ Local development only
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-  });
-}
+// ✅ CORRECT - await the connection
+(async () => {
+  await connectDB();
+  
+  // Local development only
+  if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  }
+})();
 
-// ✅ Required for Vercel
+// Required for Vercel
 module.exports = app;

@@ -33,26 +33,63 @@
 
 // module.exports = connectDB;
 
-const connectDB = async () => {
-  console.log("🔍 Connection state:", mongoose.connection.readyState);
+// const connectDB = async () => {
+//   console.log("🔍 Connection state:", mongoose.connection.readyState);
   
+//   if (mongoose.connection.readyState === 1) {
+//     console.log("✅ Using existing MongoDB connection");
+//     return;
+//   }
+
+//   console.log("🔄 Establishing new MongoDB connection...");
+  
+//   try {
+//     const conn = await mongoose.connect(process.env.MONGO_URI, {
+//       serverSelectionTimeoutMS: 10000,
+//       socketTimeoutMS: 45000,
+//     });
+
+//     console.log("✅ MongoDB connected:", conn.connection.host);
+//   } catch (error) {
+//     console.error("❌ MongoDB connection error:", error.message);
+//     console.error("Full error:", error);
+//     throw error;
+//   }
+// };
+
+const mongoose = require("mongoose");
+
+const connectDB = async () => {
+  // Reuse connection if already established
   if (mongoose.connection.readyState === 1) {
-    console.log("✅ Using existing MongoDB connection");
     return;
   }
 
-  console.log("🔄 Establishing new MongoDB connection...");
-  
+  // Wait if connection is in progress
+  if (mongoose.connection.readyState === 2) {
+    await new Promise((resolve) => {
+      mongoose.connection.once('connected', resolve);
+    });
+    return;
+  }
+
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
+    await mongoose.connect(process.env.MONGO_URI, {
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
+      maxPoolSize: 10, // For serverless
+      minPoolSize: 1,
     });
 
-    console.log("✅ MongoDB connected:", conn.connection.host);
+    console.log("✅ MongoDB connected");
   } catch (error) {
     console.error("❌ MongoDB connection error:", error.message);
-    console.error("Full error:", error);
     throw error;
   }
 };
+
+
+module.exports = connectDB;
+
+
+
