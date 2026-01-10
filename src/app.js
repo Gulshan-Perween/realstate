@@ -7,6 +7,7 @@ const adminRoutes = require('./routes/admin.routes');
 const PropertyModel = require('./models/Property.model');
 const adminanalyticsRoutes = require('./routes/admin.analytics.routes');
 
+console.log("MONGO URI 👉", process.env.MONGO_URI);
 
 const app = express();
 
