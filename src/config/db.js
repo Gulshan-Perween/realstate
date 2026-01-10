@@ -1,34 +1,58 @@
-// const mongoose = require('mongoose');
+// // const mongoose = require('mongoose');
+
+// // const connectDB = async () => {
+// //   await mongoose.connect(process.env.MONGO_URI);
+// //   console.log('✅ MongoDB connected');
+// // };
+
+// // module.exports = connectDB;
+
+// const mongoose = require("mongoose");
+
+// let isConnected = false; // 👈 important for serverless
 
 // const connectDB = async () => {
-//   await mongoose.connect(process.env.MONGO_URI);
-//   console.log('✅ MongoDB connected');
+//   if (isConnected) {
+//     return;
+//   }
+
+//   try {
+//     const conn = await mongoose.connect(process.env.MONGO_URI, {
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//       serverSelectionTimeoutMS: 5000, // ⏱️ fast fail instead of hang
+//     });
+
+//     isConnected = true;
+//     console.log("✅ MongoDB connected:", conn.connection.host);
+//   } catch (error) {
+//     console.error("❌ MongoDB connection error:", error.message);
+//     throw error;
+//   }
 // };
 
 // module.exports = connectDB;
 
-const mongoose = require("mongoose");
-
-let isConnected = false; // 👈 important for serverless
-
 const connectDB = async () => {
-  if (isConnected) {
+  console.log("🔍 Connection state:", mongoose.connection.readyState);
+  
+  if (mongoose.connection.readyState === 1) {
+    console.log("✅ Using existing MongoDB connection");
     return;
   }
 
+  console.log("🔄 Establishing new MongoDB connection...");
+  
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000, // ⏱️ fast fail instead of hang
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
     });
 
-    isConnected = true;
     console.log("✅ MongoDB connected:", conn.connection.host);
   } catch (error) {
     console.error("❌ MongoDB connection error:", error.message);
+    console.error("Full error:", error);
     throw error;
   }
 };
-
-module.exports = connectDB;
