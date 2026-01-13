@@ -123,7 +123,7 @@
 // };
 
 
-const connectDB = require("../../config/db");  // ✅ ADD THIS LINE
+const connectDB = require("../config/db");  // ✅ ADD THIS LINE
 const User = require('../models/User.model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
