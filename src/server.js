@@ -8,10 +8,18 @@
 //   console.log(`🚀 Server running on port ${process.env.PORT}`);
 // });
 
-require('dotenv').config();
-const app = require('./app');
-const connectDB = require('./config/db');
+// require('dotenv').config();
+// const app = require('./app');
+// const connectDB = require('./config/db');
+
+// connectDB();
+
+// module.exports = app;   // ❗ REMOVE app.listen
+
+require("dotenv").config();
+const app = require("./app");
+const connectDB = require("./config/db");
 
 connectDB();
 
-module.exports = app;   // ❗ REMOVE app.listen
+module.exports = app;
