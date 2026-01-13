@@ -47,10 +47,10 @@
 const express = require('express');
 const cors = require('cors');
 
-const authRoutes = require('./src/routes/auth.routes');
-const propertyRoutes = require('./src/routes/property.routes');
-const adminRoutes = require('./src/routes/admin.routes');
-const adminanalyticsRoutes = require('./src/routes/admin.analytics.routes');
+const authRoutes = require('./routes/auth.routes');
+const propertyRoutes = require('./routes/property.routes');
+const adminRoutes = require('./routes/admin.routes');
+const adminanalyticsRoutes = require('./routes/admin.analytics.routes');
 
 console.log("MONGO URI 👉", process.env.MONGO_URI);
 
