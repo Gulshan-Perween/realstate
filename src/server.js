@@ -16,10 +16,19 @@
 
 // module.exports = app;   // ❗ REMOVE app.listen
 
+// require("dotenv").config();
+// const app = require("./app");
+// const connectDB = require("./config/db");
+
+// connectDB();
+
+// module.exports = app;
 require("dotenv").config();
 const app = require("./app");
-const connectDB = require("./config/db");
 
-connectDB();
+// ❌ YE LINE REMOVE KARO
+// const connectDB = require("./config/db");
+// connectDB();
 
+// ✅ SIRF YE RAKHO
 module.exports = app;
