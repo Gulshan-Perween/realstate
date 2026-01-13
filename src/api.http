@@ -59,9 +59,9 @@ Content-Type: {{json}}
 # }
 
 {
-    "email": "raj@gmail.com",
+  "email": "admin@test.com",
   "password": "123456"
-  }
+}
 
 ### ===============================
 ### COPY TOKEN FROM LOGIN RESPONSE
