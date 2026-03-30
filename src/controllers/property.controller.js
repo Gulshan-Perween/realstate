@@ -153,3 +153,24 @@ exports.getDashboardStats = async (req, res) => {
     });
   }
 };
+
+exports.getPublicProperties = async (req, res) => {
+  try {
+    const properties = await Property.find({
+      isVerified: true   // 🔥 THIS is correct field
+    }).sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      properties
+    });
+  } catch (err) {
+    console.error("FETCH PROPERTIES ERROR", err);
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+
+

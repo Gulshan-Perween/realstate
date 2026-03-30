@@ -26,9 +26,6 @@
 require("dotenv").config();
 const app = require("./app");
 
-// ❌ YE LINE REMOVE KARO
-// const connectDB = require("./config/db");
-// connectDB();
 
-// ✅ SIRF YE RAKHO
+
 module.exports = app;

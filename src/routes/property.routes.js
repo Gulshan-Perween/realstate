@@ -8,6 +8,7 @@ const {
   getProperties,
   getMyListings,
   getDashboardStats,
+  getPublicProperties
 } = require("../controllers/property.controller");
 
 /**
@@ -40,5 +41,8 @@ router.post(
   upload.array("images", 5), // 👈 MAX 5 PHOTOS
   createProperty
 );
+
+router.get("/properties", getPublicProperties);
+
 
 module.exports = router;
