@@ -1,31 +1,10 @@
-// require('dotenv').config();
-// const app = require('./app');
-// const connectDB = require('./config/db');
-// console.log("MONGO URI 👉", process.env.MONGO_URI);
-// connectDB();
-
-// app.listen(process.env.PORT, () => {
-//   console.log(`🚀 Server running on port ${process.env.PORT}`);
-// });
-
-// require('dotenv').config();
-// const app = require('./app');
-// const connectDB = require('./config/db');
-
-// connectDB();
-
-// module.exports = app;   // ❗ REMOVE app.listen
-
-// require("dotenv").config();
-// const app = require("./app");
-// const connectDB = require("./config/db");
-
-// connectDB();
-
-// module.exports = app;
+// server.js
 require("dotenv").config();
 const app = require("./app");
+const connectDB = require("./config/db");
 
-
-
-module.exports = app;
+// ✅ Wrap app to ensure DB connects before every request
+module.exports = async (req, res) => {
+  await connectDB();
+  app(req, res);
+};

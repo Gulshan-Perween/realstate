@@ -174,3 +174,18 @@ exports.getPublicProperties = async (req, res) => {
 };
 
 
+// property.controller.js — add this
+exports.getPropertyById = async (req, res) => {
+  try {
+    const property = await Property.findById(req.params.id).populate("owner", "name email");
+
+    if (!property) {
+      return res.status(404).json({ success: false, message: "Property not found" });
+    }
+
+    res.status(200).json({ success: true, property });
+  } catch (error) {
+    console.error("GET PROPERTY BY ID ERROR:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch property" });
+  }
+};
