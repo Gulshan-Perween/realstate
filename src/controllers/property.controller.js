@@ -72,26 +72,19 @@ exports.createProperty = async (req, res) => {
  */
 exports.getProperties = async (req, res) => {
   try {
-    const query = {};
+    console.log("🔍 DB state:", require("mongoose").connection.readyState);
+    // readyState: 0=disconnected, 1=connected, 2=connecting, 3=disconnecting
 
+    const query = { isVerified: true };
     if (req.query.city) query.city = req.query.city;
     if (req.query.purpose) query.purpose = req.query.purpose;
 
-    const properties = await Property.find(query).populate(
-      "owner",
-      "name email"
-    );
+    const properties = await Property.find(query).populate("owner", "name email");
 
-    res.status(200).json({
-      success: true,
-      properties,
-    });
+    res.status(200).json({ success: true, properties });
   } catch (error) {
-    console.error("GET PROPERTIES ERROR:", error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch properties",
-    });
+    console.error("GET PROPERTIES ERROR:", error.message); // ← check Vercel logs for exact error
+    res.status(500).json({ success: false, message: "Failed to fetch properties" });
   }
 };
 
